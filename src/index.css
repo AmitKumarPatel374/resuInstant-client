@@ -1,19 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
 @import "tailwindcss";
 
-*{
-   font-family: "Outfit", sans-serif;
+* {
+  font-family: "Outfit", sans-serif;
 }
 
-@layer base{
-  button{
+@layer base {
+  button {
     @apply cursor-pointer;
   }
-  input:not([type="checkbox"]){
+  input:not([type="checkbox"]) {
     @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 rounded-lg;
   }
-  textarea{
-     @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 rounded-lg;
+  textarea {
+    @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 rounded-lg;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #resume-preview,
+  #resume-preview * {
+    visibility: visible;
+  }
+
+  #resume-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 5px;
   }
 }
