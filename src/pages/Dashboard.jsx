@@ -10,7 +10,6 @@ import {
   UploadCloud,
   LoaderCircleIcon,
 } from "lucide-react"
-import { dummyResumeData } from "../assets/assets"
 import { useSelector } from "react-redux"
 import apiInstance from "../configs/api"
 import toast from "react-hot-toast"
@@ -85,26 +84,31 @@ const Dashboard = () => {
     }
   }
 
-  const editTitle = async(e) => {
+  const editTitle = async (e) => {
     try {
-      e.preventDefault();
-      const {data} = await apiInstance.put('/resume/update',{resumeId:editResumeId,resumeData:{title} })
-      setAllResumes(allResumes.map(resume=> resume._id === editResumeId ? {...resume,title}:resume))
-      setTitle('')
-      setEditResumeId('')
-      toast.success(data.message);
+      e.preventDefault()
+      const { data } = await apiInstance.put("/resume/update", {
+        resumeId: editResumeId,
+        resumeData: { title },
+      })
+      setAllResumes(
+        allResumes.map((resume) => (resume._id === editResumeId ? { ...resume, title } : resume))
+      )
+      setTitle("")
+      setEditResumeId("")
+      toast.success(data.message)
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
   }
-  const deleteResume = async(resumeId) => {
+  const deleteResume = async (resumeId) => {
     try {
       const confirm = window.confirm("are you sure want to delete this resume?")
-    if (confirm) {
-      const {data} = await apiInstance.delete(`/resume/delete/${resumeId}`)
-      setAllResumes(allResumes.filter(resume=> resume._id !==resumeId));
-      toast.success(data.message);
-    }
+      if (confirm) {
+        const { data } = await apiInstance.delete(`/resume/delete/${resumeId}`)
+        setAllResumes(allResumes.filter((resume) => resume._id !== resumeId))
+        toast.success(data.message)
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
@@ -281,9 +285,12 @@ hover:text-green-700 cursor-pointer transition-colors"
                   onChange={(e) => setResume(e.target.files[0])}
                 />
               </div>
-              <button disabled={isLoading} className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+              <button
+                disabled={isLoading}
+                className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+              >
                 {isLoading && <LoaderCircleIcon className="animate-spin size-4 text-white" />}
-                {isLoading ?'Uploading':'Upload Resume'}
+                {isLoading ? "Uploading" : "Upload Resume"}
               </button>
               <XIcon
                 className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"

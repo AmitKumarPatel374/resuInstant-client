@@ -29,6 +29,7 @@ import EducationForm from "../components/EducationForm"
 import ProjectForm from "../components/ProjectForm"
 import SkillsForm from "../components/SkillsForm"
 import apiInstance from "../configs/api"
+import toast from "react-hot-toast"
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams()
@@ -79,7 +80,20 @@ const ResumeBuilder = () => {
   }, [])
 
   const changeResumeVisibility = async () => {
-    setResumeData({ ...resumeData, public: !resumeData.public })
+    try {
+      const formData = new FormData();
+      formData.append("resumeId",resumeId)
+      formData.append("resumeData",JSON.stringify({public: !resumeData.public}));
+
+      const {data} = await apiInstance.put(`/resume/update`,formData)
+
+      setResumeData({...resumeData, public: !resumeData.public})
+
+      toast.success(data.message);
+    } catch (error) {
+      console.log("Error saving resume:", error);
+      
+    }
   }
 
   const handleShare = () => {
@@ -95,6 +109,31 @@ const ResumeBuilder = () => {
 
   const downloadResume = () => {
     window.print()
+  }
+
+  const saveResume = async()=>{
+    try {
+      let updatedResumeData = structuredClone(resumeData)
+
+      if(typeof resumeData.personal_info.image === 'object' ){
+        delete updatedResumeData.personal_info.image
+      }
+
+      const formData = new FormData();
+      formData.append("resumeId",resumeId);
+      formData.append("resumeData",JSON.stringify(updatedResumeData));
+
+      removeBackGround && formData.append("removeBackground","true");
+      typeof resumeData.personal_info.image === 'object' && formData.append("image",resumeData.personal_info.image)
+
+       const {data} = await apiInstance.put(`/resume/update`,formData)
+
+       setResumeData(data.resume);
+       toast.success(data.message);
+
+    } catch (error) {
+      console.log("Error in saving resume", error);
+    }
   }
 
   return (
@@ -215,7 +254,7 @@ transition-all"
                   )}
                 </div>
 
-                <button className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm">
+                <button onClick={()=>{toast.promise(saveResume, {loading:'Saving...'})}} className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm">
                   Save Changes
                 </button>
               </div>

@@ -48,26 +48,25 @@ hover:text-slate-700 cursor-pointer"
         {typeof data.image == "object" && (
           <div className="flex flex-col gap-1 pl-4 tex-sm">
             <p>Remove Background</p>
-            <label
-              htmlFor=""
-              className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3"
-            >
+            <label className="relative inline-flex items-center cursor-pointer gap-3">
               <input
                 type="checkbox"
                 className="sr-only peer"
-                onChange={() => setRemoveBackground((prev) => !prev)}
                 checked={removeBackground}
+                onChange={() => setRemoveBackground((prev) => !prev)}
               />
+
+              {/* switch track */}
               <div
-                className="w-9 h-5 bg-slate-300 rounded-full peer
-peer-checked:bg-green-600 transition-colors duration-200"
+                className="relative w-10 h-5 bg-slate-300 rounded-full
+    transition-colors peer-checked:bg-green-600"
               ></div>
 
+              {/* dot */}
               <span
-                className="dot absolute left-1 top-1 w-3 h-3 bg-white
-rounded-full transition-transform duration-200 ease-in-out
-peer-checked:translate-x-4"
-              ></span>
+                className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full
+    transition-transform peer-checked:translate-x-5"
+              />
             </label>
           </div>
         )}
