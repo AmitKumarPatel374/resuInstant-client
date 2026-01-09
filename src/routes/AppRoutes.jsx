@@ -6,6 +6,9 @@ import Dashboard from "../pages/Dashboard"
 import ResumeBuilder from "../pages/ResumeBuilder"
 import Preview from "../pages/Preview"
 import Login from "../pages/Login"
+import PrivacyPolicy from "../pages/PrivacyPolicy"
+import TermsOfUse from "../pages/TermsOfUse"
+import Reviews from "../pages/Reviews"
 
 const AppRoutes = () => {
   return (
@@ -20,6 +23,9 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="builder/:resumeId" element={<ResumeBuilder />} />
       </Route>
+      <Route path="/app/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/app/terms-of-use" element={<TermsOfUse />} />
+      <Route path="/app/reviews" element={<Reviews />} />
     </Routes>
   )
 }

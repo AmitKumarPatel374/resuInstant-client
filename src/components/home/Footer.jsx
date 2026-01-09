@@ -57,17 +57,17 @@ const Footer = () => {
           {/* Legal */}
           <div>
             <p className="text-slate-800 font-semibold">Legal</p>
-            <ul className="mt-2 space-y-2">
-              <li>
-                <span className="cursor-default">
+            <ul className="mt-2 space-y-2 flex flex-col">
+              <Link to='/app/privacy-policy'>
+                <span className="cursor-default cursor-pointer">
                   Privacy Policy
                 </span>
-              </li>
-              <li>
-                <span className="cursor-default">
+              </Link>
+              <Link to='/app/terms-of-use'>
+                <span className="cursor-default cursor-pointer">
                   Terms of Use
                 </span>
-              </li>
+              </Link>
             </ul>
           </div>
         </div>

@@ -1,133 +1,137 @@
-import React from "react"
-import { BookUserIcon } from "lucide-react"
+import React, { useRef, useState, useEffect } from "react"
+import { BookUserIcon, ChevronLeft, ChevronRight, StarIcon } from "lucide-react"
 import Title from "./Title"
+import FeedbackForm from "./FeedbackForm"
+import apiInstance from "../../configs/api"
+import { useNavigate } from "react-router-dom"
+import ReviewCard from "../ReviewCard"
 
 const Testimonial = () => {
-  const cardsData = [
-    {
-      image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200",
-      name: "Briar Martin",
-      handle: "@briarmartin",
-      date: "April 20, 2025",
-      text: "The resume builder is simple and easy to use. I liked how everything is guided step by step.",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200",
-      name: "Avery Johnson",
-      handle: "@averyjohnson",
-      date: "May 10, 2025",
-      text: "AI suggestions helped me improve my summary quickly without rewriting everything.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=200&auto=format&fit=crop&q=60",
-      name: "Jordan Lee",
-      handle: "@jordanlee",
-      date: "June 5, 2025",
-      text: "Uploading my existing resume and editing it was smooth. The UI feels clean and clear.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200&auto=format&fit=crop&q=60",
-      name: "Avery Johnson",
-      handle: "@averyjohnson",
-      date: "May 10, 2025",
-      text: "Good project overall. It covers the basics well and saves time while building resumes.",
-    },
-  ]
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [feedbacks, setFeedbacks] = useState([])
+  const sliderRef = useRef(null)
+  const navigate = useNavigate();
 
-  const CreateCard = ({ card }) => (
-    <div className="p-4 rounded-lg mx-4 shadow hover:shadow-lg transition-all duration-200 w-72 shrink-0 bg-white">
-      <div className="flex gap-2">
-        <img
-          className="size-11 rounded-full"
-          src={card.image}
-          alt={card.name}
-        />
-        <div className="flex flex-col">
-          <div className="flex items-center gap-1">
-            <p className="text-sm font-medium text-slate-700">{card.name}</p>
-          </div>
-          <span className="text-xs text-slate-500">{card.handle}</span>
-        </div>
-      </div>
+  const getFeedbacks = async () => {
+    try {
+      const { data } = await apiInstance.get("/feedback/data")
+      setFeedbacks(data.feedbacks)
+    } catch (error) {
+      console.log("error in finding feedbacks, ", error)
+    }
+  }
 
-      <p className="text-sm py-4 text-slate-700">
-        {card.text}
-      </p>
+  useEffect(() => {
+    getFeedbacks()
+  }, [])
 
-      <div className="flex items-center justify-between text-slate-400 text-xs">
-        <span>Posted on</span>
-        <p>{card.date}</p>
-      </div>
-    </div>
-  )
+  const scroll = (direction) => {
+    if (!sliderRef.current) return
+    const width = sliderRef.current.offsetWidth
+    sliderRef.current.scrollBy({
+      left: direction === "left" ? -width : width,
+      behavior: "smooth",
+    })
+  }
+
+
+
+  const averageRating = feedbacks.length
+    ? (feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length).toFixed(1)
+    : 0
+
 
   return (
     <>
       {/* Header */}
-      <div
+      <section
         id="testimonials"
-        className="flex flex-col items-center my-16 scroll-mt-16"
+        className="max-w-6xl mx-auto px-4 my-20 scroll-mt-16"
       >
-        <div className="flex items-center gap-2 text-sm text-green-600 bg-green-400/10 rounded-full px-6 py-1.5">
-          <BookUserIcon className="size-4 stroke-green-600" />
-          <span>User feedback</span>
+        <div className="flex flex-col items-center text-center">
+          <div className="flex items-center gap-2 text-sm text-green-600 bg-green-400/10 rounded-full px-6 py-1.5">
+            <BookUserIcon className="size-4 stroke-green-600" />
+            <span>User feedback</span>
+          </div>
+
+          <Title
+            title="What users think about this project"
+            description="Honest feedback from people who tried the resume builder."
+          />
+
+          <div className="mt-4 flex items-center gap-2 text-sm text-slate-600">
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <StarIcon
+                  key={star}
+                  className={`size-4 ${
+                    star <= Math.round(averageRating)
+                      ? "fill-green-500 text-green-500"
+                      : "text-slate-300"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <span className="font-medium text-slate-700">{averageRating} / 5</span>
+
+            <span className="text-slate-500">({feedbacks.length} verified reviews)</span>
+          </div>
+
+          <button
+            onClick={() => setShowFeedback(true)}
+            className="mt-6 px-6 py-2 rounded-full bg-green-600 text-white text-sm hover:bg-green-700 transition"
+          >
+            Give Feedback
+          </button>
+
         </div>
+          <div className="mt-6 flex  justify-end">
+            <button
+              onClick={() => navigate("/app/reviews")}
+              className="text-sm font-medium text-green-600 hover:text-green-700 transition"
+            >
+              View all reviews →
+            </button>
+          </div>
 
-        <Title
-          title="What users think about this project"
-          description="Feedback from people who tried the resume builder. This helps us understand what works and what can be improved."
-        />
-      </div>
+        {/* Slider */}
+        <div className="relative mt-10">
+          {/* Controls */}
+          <button
+            onClick={() => scroll("left")}
+            className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 bg-white border rounded-full p-2 shadow"
+          >
+            <ChevronLeft className="size-4" />
+          </button>
 
-      {/* Marquee Row 1 */}
-      <div className="marquee-row w-full mx-auto max-w-5xl overflow-hidden relative">
-        <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent"></div>
+          <button
+            onClick={() => scroll("right")}
+            className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 bg-white border rounded-full p-2 shadow"
+          >
+            <ChevronRight className="size-4" />
+          </button>
 
-        <div className="marquee-inner flex transform-gpu min-w-[200%] pt-10 pb-5">
-          {[...cardsData, ...cardsData].map((card, index) => (
-            <CreateCard
-              key={index}
-              card={card}
-            />
-          ))}
+          {/* Cards */}
+          <div
+            ref={sliderRef}
+            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+          >
+            {feedbacks
+              .filter((feedback) => feedback.rating >= 4)
+              .slice(0, 10)
+              .map((feedback, index) => (
+                <ReviewCard
+                  key={feedback._id || index}
+                  feedback={feedback}
+                  variant="slider"
+                />
+              ))}
+          </div>
         </div>
+      </section>
 
-        <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent"></div>
-      </div>
-
-      {/* Marquee Row 2 */}
-      <div className="marquee-row w-full mx-auto max-w-5xl overflow-hidden relative">
-        <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent"></div>
-
-        <div className="marquee-inner marquee-reverse flex transform-gpu min-w-[200%] pt-10 pb-5">
-          {[...cardsData, ...cardsData].map((card, index) => (
-            <CreateCard
-              key={index}
-              card={card}
-            />
-          ))}
-        </div>
-
-        <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent"></div>
-      </div>
-
-      {/* Animation */}
-      <style>{`
-        @keyframes marqueeScroll {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-
-        .marquee-inner {
-          animation: marqueeScroll 25s linear infinite;
-        }
-
-        .marquee-reverse {
-          animation-direction: reverse;
-        }
-      `}</style>
+      {showFeedback && <FeedbackForm onClose={() => setShowFeedback(false)} />}
     </>
   )
 }
