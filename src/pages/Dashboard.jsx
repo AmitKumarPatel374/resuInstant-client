@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import toast from "react-hot-toast"
@@ -8,7 +8,7 @@ import apiInstance from "../configs/api"
 import ResumeGrid from "../components/Dashboard/ResumeGrid"
 import CreateResumeModal from "../components/Dashboard/CreateResumeModal"
 import UploadResumeModal from "../components/Dashboard/UploadResumeModal"
-import EditResumeModal from "../components/dashboard/EditResumeModal"
+import EditResumeModal from "../components/Dashboard/EditResumeModal"
 import Contact from "../components/Dashboard/Contact"
 import FeedbackForm from "../components/home/FeedbackForm"
 
@@ -16,7 +16,7 @@ const Dashboard = () => {
   const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
-  const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"]
+  const colors = ["#9333ea", "#040404", "#dc2626", "#0284c7", "#16a34a"]
 
   const [allResumes, setAllResumes] = useState([])
   const [showCreateResume, setShowCreateResume] = useState(false)
