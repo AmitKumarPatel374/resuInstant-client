@@ -5,7 +5,6 @@ import toast from "react-hot-toast"
 import pdfToText from "react-pdftotext"
 import apiInstance from "../configs/api"
 
-import ResumeActions from "../components/Dashboard/ResumeActions"
 import ResumeGrid from "../components/Dashboard/ResumeGrid"
 import CreateResumeModal from "../components/Dashboard/CreateResumeModal"
 import UploadResumeModal from "../components/Dashboard/UploadResumeModal"
