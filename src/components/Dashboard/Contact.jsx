@@ -4,9 +4,11 @@ import {
   TwitterIcon,
   GithubIcon,
   InstagramIcon,
+  Loader2,
 } from "lucide-react"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import apiInstance from "../../configs/api"
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -14,30 +16,37 @@ const Contact = () => {
     email: "",
     message: "",
   })
+  const [isSending, setIsSending] = useState(false)
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault()
+      setIsSending(true)
+      if (!form.name || !form.email || !form.message) {
+        toast.error("Please fill all fields")
+        return
+      }
 
-    if (!form.name || !form.email || !form.message) {
-      toast.error("Please fill all fields")
-      return
+      const response = await apiInstance.post("/mail/contact", form)
+
+      toast.success(response.data.message)
+      setForm({ name: "", email: "", message: "" })
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
+      setIsSending(false)
     }
-
-    toast.success("Your message has been sent!")
-    setForm({ name: "", email: "", message: "" })
   }
 
   return (
     <div className="max-w-3xl">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-slate-800">
-          Contact
-        </h1>
+        <h1 className="text-2xl font-semibold text-slate-800">Contact</h1>
         <p className="text-sm text-slate-600 mt-1">
           Have a question or feedback? Send us a message.
         </p>
@@ -86,18 +95,22 @@ const Contact = () => {
 
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-green-600 text-white text-sm hover:bg-green-700 transition"
+            disabled={isSending}
+            className={`
+    w-full py-2 rounded-md text-sm text-white transition
+    flex items-center justify-center gap-2
+    ${isSending ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}
+  `}
           >
-            Send Message
+            {isSending && <Loader2 className="size-4 animate-spin" />}
+            {isSending ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>
 
       {/* ================= CONTACT LINKS ================= */}
       <div className="mt-6">
-        <p className="text-sm text-slate-500 mb-3">
-          Or reach us directly:
-        </p>
+        <p className="text-sm text-slate-500 mb-3">Or reach us directly:</p>
 
         <div className="flex flex-wrap gap-4 text-sm">
           <span className="flex items-center gap-2 text-slate-600">

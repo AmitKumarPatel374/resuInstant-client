@@ -6,14 +6,15 @@ import {
 
 const ResumeCard = ({ resume, color, onOpen, onDelete, onEdit }) => {
   return (
-    <button
-      type="button"
+    <div
       onClick={() => onOpen(resume._id)}
+      role="button"
+      tabIndex={0}
       className="
         relative w-full sm:max-w-36 h-48
         rounded-xl border bg-white
         flex flex-col items-center justify-center
-        px-4 text-center
+        px-4 text-center cursor-pointer
         transition-all duration-300
         hover:shadow-lg hover:-translate-y-0.5
         group
@@ -90,7 +91,7 @@ const ResumeCard = ({ resume, color, onOpen, onDelete, onEdit }) => {
           <TrashIcon className="size-4" />
         </button>
       </div>
-    </button>
+    </div>
   )
 }
 

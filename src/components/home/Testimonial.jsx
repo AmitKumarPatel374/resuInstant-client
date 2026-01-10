@@ -10,7 +10,7 @@ const Testimonial = () => {
   const [showFeedback, setShowFeedback] = useState(false)
   const [feedbacks, setFeedbacks] = useState([])
   const sliderRef = useRef(null)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const getFeedbacks = async () => {
     try {
@@ -34,12 +34,9 @@ const Testimonial = () => {
     })
   }
 
-
-
   const averageRating = feedbacks.length
     ? (feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length).toFixed(1)
     : 0
-
 
   return (
     <>
@@ -84,16 +81,15 @@ const Testimonial = () => {
           >
             Give Feedback
           </button>
-
         </div>
-          <div className="mt-6 flex  justify-end">
-            <button
-              onClick={() => navigate("/app/reviews")}
-              className="text-sm font-medium text-green-600 hover:text-green-700 transition"
-            >
-              View all reviews →
-            </button>
-          </div>
+        <div className="mt-6 flex  justify-end">
+          <button
+            onClick={() => navigate("/app/reviews")}
+            className="text-sm font-medium text-green-600 hover:text-green-700 transition"
+          >
+            View all reviews →
+          </button>
+        </div>
 
         {/* Slider */}
         <div className="relative mt-10">
@@ -131,7 +127,13 @@ const Testimonial = () => {
         </div>
       </section>
 
-      {showFeedback && <FeedbackForm onClose={() => setShowFeedback(false)} />}
+      {showFeedback && (
+        <FeedbackForm
+          variant="modal"
+          source="landing"
+          onClose={() => setShowFeedback(false)}
+        />
+      )}
     </>
   )
 }

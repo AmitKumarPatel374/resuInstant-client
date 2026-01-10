@@ -11,6 +11,7 @@ import CreateResumeModal from "../components/Dashboard/CreateResumeModal"
 import UploadResumeModal from "../components/Dashboard/UploadResumeModal"
 import EditResumeModal from "../components/dashboard/EditResumeModal"
 import Contact from "../components/Dashboard/Contact"
+import FeedbackForm from "../components/home/FeedbackForm"
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth)
@@ -110,6 +111,7 @@ const Dashboard = () => {
             { id: "upload", label: "Upload Resume" },
             { id: "resumes", label: "Your Resumes" },
             { id: "contact", label: "Contact" },
+            { id: "feedback", label: "feedback" },
           ].map((item) => (
             <button
               key={item.id}
@@ -202,6 +204,25 @@ const Dashboard = () => {
 
         {/* ========== CONTACT VIEW ========== */}
         {activeView === "contact" && <Contact />}
+
+        {/* ========== feedback VIEW ========== */}
+        {activeView === "feedback" && (
+          <div className="max-w-3xl">
+            {/* Header */}
+            <div className="mb-6">
+              <h1 className="text-2xl font-semibold text-slate-800">Share Your Feedback</h1>
+              <p className="text-sm text-slate-600 mt-1">
+                Help us improve resuInstant by sharing your experience and suggestions.
+              </p>
+            </div>
+
+            {/* Form */}
+            <FeedbackForm
+              variant="inline"
+              source="dashboard"
+            />
+          </div>
+        )}
       </main>
 
       {/* ================= MODALS ================= */}
