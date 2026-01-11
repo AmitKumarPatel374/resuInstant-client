@@ -9,6 +9,7 @@ import Login from "../pages/Login"
 import PrivacyPolicy from "../pages/PrivacyPolicy"
 import TermsOfUse from "../pages/TermsOfUse"
 import Reviews from "../pages/Reviews"
+import ForgotPassword from "../pages/ForgotPassword"
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       {/* Public routes */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/view/:resumeId" element={<Preview />} />
 
       {/* Protected / App layout routes */}

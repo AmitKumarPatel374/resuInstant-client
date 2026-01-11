@@ -169,6 +169,7 @@ const Login = () => {
 
               <div className="mt-4 text-left text-green-500">
                 <button
+                 onClick={()=>navigate('/forgot-password')}
                   className="text-sm"
                   type="reset"
                 >
