@@ -31,7 +31,7 @@ const Contact = () => {
         return
       }
 
-      const response = await apiInstance.post("/mail/contact", form)
+      const response = await apiInstance.post("/contact/me", form)
 
       toast.success(response.data.message)
       setForm({ name: "", email: "", message: "" })
