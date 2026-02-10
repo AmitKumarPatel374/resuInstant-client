@@ -101,26 +101,38 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      {/* ================= LEFT SIDEBAR ================= */}
-      <aside className="w-64 bg-white border-r px-4 py-6 flex flex-col">
-        <nav className="space-y-1 flex-1">
+    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
+
+      {/* ================= SIDEBAR ================= */}
+      <aside className="
+        w-full md:w-64
+        bg-white
+        border-b md:border-b-0 md:border-r
+        px-4 py-4 md:py-6
+        flex md:flex-col
+      ">
+        <nav className="
+          flex md:flex-col
+          gap-2 md:gap-1
+          overflow-x-auto md:overflow-visible
+          flex-1
+        ">
           {[
             { id: "resumes", label: "Your Resumes" },
             { id: "create", label: "Create Resume" },
             { id: "upload", label: "Upload Resume" },
             { id: "contact", label: "Contact" },
-            { id: "feedback", label: "feedback" },
+            { id: "feedback", label: "Feedback" },
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveView(item.id)}
-              className={`w-full text-left px-4 py-2 rounded-lg text-sm transition
-        ${
-          activeView === item.id
-            ? "bg-green-50 text-green-700 font-semibold border-l-4 border-green-600"
-            : "text-slate-600 hover:bg-slate-100"
-        }`}
+              className={`whitespace-nowrap md:w-full text-left px-4 py-2 rounded-lg text-sm transition
+              ${
+                activeView === item.id
+                  ? "bg-green-50 text-green-700 font-semibold md:border-l-4 border-green-600"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
             >
               {item.label}
             </button>
@@ -128,21 +140,23 @@ const Dashboard = () => {
         </nav>
       </aside>
 
-      {/* ================= RIGHT CONTENT ================= */}
-      <main className="flex-1 p-8 overflow-y-auto">
-        {/* ========== CREATE RESUME VIEW ========== */}
+      {/* ================= MAIN CONTENT ================= */}
+      <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
+
+        {/* CREATE VIEW */}
         {activeView === "create" && (
           <>
-            <h1 className="text-2xl font-semibold text-slate-800 mb-1">Create a Resume</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-800 mb-1">
+              Create a Resume
+            </h1>
             <p className="text-sm text-slate-600 mb-6">
               Start building your resume from scratch with guided steps.
             </p>
 
-            <div className="max-w-sm">
+            <div className="max-w-sm mx-auto md:mx-0">
               <div
                 onClick={() => setShowCreateResume(true)}
-                className="border-2 border-dashed rounded-xl p-10 text-center cursor-pointer
-        hover:border-indigo-400 bg-white"
+                className="border-2 border-dashed rounded-xl p-8 sm:p-10 text-center cursor-pointer hover:border-indigo-400 bg-white"
               >
                 <div className="mx-auto size-12 rounded-full bg-indigo-500 text-white flex items-center justify-center text-2xl">
                   +
@@ -154,19 +168,20 @@ const Dashboard = () => {
           </>
         )}
 
-        {/* ========== UPLOAD RESUME VIEW ========== */}
+        {/* UPLOAD VIEW */}
         {activeView === "upload" && (
           <>
-            <h1 className="text-2xl font-semibold text-slate-800 mb-1">Upload Resume</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-800 mb-1">
+              Upload Resume
+            </h1>
             <p className="text-sm text-slate-600 mb-6">
               Upload an existing PDF and enhance it with AI.
             </p>
 
-            <div className="max-w-sm">
+            <div className="max-w-sm mx-auto md:mx-0">
               <div
                 onClick={() => setShowUploadResume(true)}
-                className="border-2 border-dashed rounded-xl p-10 text-center cursor-pointer
-        hover:border-purple-400 bg-white"
+                className="border-2 border-dashed rounded-xl p-8 sm:p-10 text-center cursor-pointer hover:border-purple-400 bg-white"
               >
                 <div className="mx-auto size-12 rounded-full bg-purple-500 text-white flex items-center justify-center">
                   ☁
@@ -178,14 +193,20 @@ const Dashboard = () => {
           </>
         )}
 
-        {/* ========== RESUME LIST VIEW ========== */}
+        {/* RESUME LIST VIEW */}
         {activeView === "resumes" && (
           <>
-            <h1 className="text-2xl font-semibold text-slate-800 mb-1">Your Resumes</h1>
-            <p className="text-sm text-slate-600 mb-6">View and manage all your created resumes.</p>
+            <h1 className="text-xl sm:text-2xl font-semibold text-slate-800 mb-1">
+              Your Resumes
+            </h1>
+            <p className="text-sm text-slate-600 mb-6">
+              View and manage all your created resumes.
+            </p>
 
             {allResumes.length === 0 ? (
-              <p className="text-sm text-slate-500 mt-10">You haven’t created any resumes yet.</p>
+              <p className="text-sm text-slate-500 mt-10 text-center md:text-left">
+                You haven’t created any resumes yet.
+              </p>
             ) : (
               <ResumeGrid
                 resumes={allResumes}
@@ -201,30 +222,27 @@ const Dashboard = () => {
           </>
         )}
 
-        {/* ========== CONTACT VIEW ========== */}
+        {/* CONTACT */}
         {activeView === "contact" && <Contact />}
 
-        {/* ========== feedback VIEW ========== */}
+        {/* FEEDBACK */}
         {activeView === "feedback" && (
-          <div className="max-w-3xl">
-            {/* Header */}
+          <div className="max-w-3xl mx-auto md:mx-0">
             <div className="mb-6">
-              <h1 className="text-2xl font-semibold text-slate-800">Share Your Feedback</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-slate-800">
+                Share Your Feedback
+              </h1>
               <p className="text-sm text-slate-600 mt-1">
                 Help us improve resuInstant by sharing your experience and suggestions.
               </p>
             </div>
 
-            {/* Form */}
-            <FeedbackForm
-              variant="inline"
-              source="dashboard"
-            />
+            <FeedbackForm variant="inline" source="dashboard" />
           </div>
         )}
       </main>
 
-      {/* ================= MODALS ================= */}
+      {/* MODALS */}
       {showCreateResume && (
         <CreateResumeModal
           title={title}
