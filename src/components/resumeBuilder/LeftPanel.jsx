@@ -25,18 +25,25 @@ const LeftPanel = ({
   saveResume,
 }) => {
   return (
-    <div className="relative lg:col-span-5 rounded-lg overflow-hidden print:hidden">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1">
+    <div className="relative w-full lg:col-span-5 print:hidden">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 
+      p-4 sm:p-6 pt-1">
+
+        {/* PROGRESS BAR */}
         <hr className="absolute top-0 left-0 right-0 border-2 border-gray-200" />
         <hr
-          className="absolute top-0 left-0 h-1 bg-gradient-to-r from-green-500 to-green-600 border-none transition-all duration-2000"
+          className="absolute top-0 left-0 h-1 bg-gradient-to-r from-green-500 to-green-600 border-none transition-all duration-500"
           style={{
             width: `${(activeSectionIndex * 100) / (sections.length - 1)}%`,
           }}
         />
 
-        <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-          <div className="flex items-center gap-2">
+        {/* TOP CONTROLS */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center 
+        gap-3 mb-6 border-b border-gray-300 py-2">
+
+          {/* Template + Color */}
+          <div className="flex flex-wrap items-center gap-2">
             <TemplateSelector
               selectedTemplate={resumeData.template}
               onChange={(template) =>
@@ -51,26 +58,38 @@ const LeftPanel = ({
             />
           </div>
 
-          <div className="flex items-center">
+          {/* Navigation Buttons */}
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+
             {activeSectionIndex !== 0 && (
               <button
                 onClick={() => setActiveSectionIndex((p) => p - 1)}
-                className="flex items-center gap-1 p-3 text-sm text-gray-600"
+                className="flex items-center justify-center gap-1 
+                px-3 py-2 text-sm text-gray-600 
+                hover:bg-gray-100 rounded-md transition-colors"
               >
-                <ChevronLeft className="size-4" /> Previous
+                <ChevronLeft className="size-4" />
+                <span className="hidden sm:inline">Previous</span>
               </button>
             )}
+
             <button
               onClick={() => setActiveSectionIndex((p) => p + 1)}
               disabled={activeSectionIndex === sections.length - 1}
-              className="flex items-center gap-1 p-3 text-sm text-gray-600"
+              className="flex items-center justify-center gap-1 
+              px-3 py-2 text-sm text-gray-600 
+              hover:bg-gray-100 rounded-md transition-colors
+              disabled:opacity-50"
             >
-              <ChevronRight className="size-4" /> Next
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="size-4" />
             </button>
           </div>
         </div>
 
+        {/* FORM SECTIONS */}
         <div className="space-y-6">
+
           {activeSection.id === "personal" && (
             <PersonalInfoForm
               data={resumeData.personal_info}
@@ -129,12 +148,18 @@ const LeftPanel = ({
           )}
         </div>
 
+        {/* SAVE BUTTON */}
         <button
           onClick={() => toast.promise(saveResume, { loading: "Saving..." })}
-          className="bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring rounded-md px-6 py-2 mt-6 text-sm"
+          className="w-full sm:w-auto 
+          bg-gradient-to-br from-green-100 to-green-200 
+          ring-green-300 text-green-600 ring 
+          rounded-md px-6 py-2 mt-6 text-sm
+          hover:shadow-sm transition-all"
         >
           Save Changes
         </button>
+
       </div>
     </div>
   )

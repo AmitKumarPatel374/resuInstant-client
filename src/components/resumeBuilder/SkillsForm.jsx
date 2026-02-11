@@ -12,7 +12,7 @@ const SkillsForm = ({ data, onChange }) => {
   }
 
   const removeSKill = (indindexToRemove) => {
-    onChange(data.filter((_, index) => index != indindexToRemove))
+    onChange(data.filter((_, index) => index !== indindexToRemove))
   }
 
   const handleKeyPress = (e) => {
@@ -21,41 +21,54 @@ const SkillsForm = ({ data, onChange }) => {
       addSkill()
     }
   }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+
+      {/* HEADER */}
       <div>
-        <h3 className="flex items-center gap-2 text-lg font-semibold">Skills</h3>
-        <p className="text-sm text-gray-500">Add your technical and soft skills</p>
+        <h3 className="text-base sm:text-lg font-semibold">
+          Skills
+        </h3>
+        <p className="text-xs sm:text-sm text-gray-500">
+          Add your technical and soft skills
+        </p>
       </div>
 
-      <div className="flex gap-2">
+      {/* INPUT SECTION */}
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
-          placeholder="Enter a skill(e.g., Javascript, Project Management)"
-          className="flex-1 px-3 py-2 text-sm"
+          placeholder="Enter a skill (e.g., JavaScript, Project Management)"
+          className="w-full sm:flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg"
           onChange={(e) => setNewSkill(e.target.value)}
           value={newSkill}
           onKeyDown={handleKeyPress}
         />
+
         <button
           onClick={addSkill}
           disabled={!newSkill.trim()}
-          className="flex
-items-center gap-2 px-4 py-2 text-sm bg-blue-600 text-white rounded-lg
-hover:bg-blue-700 transition-colors disabled:opacity-50
-disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 
+          w-full sm:w-auto
+          px-4 py-2 text-sm 
+          bg-blue-600 text-white rounded-lg
+          hover:bg-blue-700 transition-colors 
+          disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Plus className="size-4" /> Add
+          <Plus className="size-4" />
+          Add
         </button>
       </div>
 
+      {/* SKILLS LIST */}
       {data.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           {data.map((skill, index) => (
             <span
               key={index}
               className="flex items-center gap-1 px-3 py-1
-bg-blue-100 text-blue-800 rounded-full text-sm"
+              bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm"
             >
               {skill}
               <button
@@ -71,16 +84,20 @@ bg-blue-100 text-blue-800 rounded-full text-sm"
         <div className="text-center py-6 text-gray-500">
           <Sparkles className="w-10 h-10 mx-auto mb-2 text-gray-300" />
           <p>No skills added yet.</p>
-          <p className="text-sm">Add your technical and soft skills above.</p>
+          <p className="text-sm">
+            Add your technical and soft skills above.
+          </p>
         </div>
       )}
 
-      <div className="bg-blue-50 p-3 rounded-lg">
-        <p className="text-sm text-blue-800">
-          <strong>Tip:</strong> Add 8-12 relevant skills. Include both technical skills (programming
-          languages, tools) and soft skills (leadership, communication).
+      {/* TIP BOX */}
+      <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
+        <p className="text-xs sm:text-sm text-blue-800">
+          <strong>Tip:</strong> Add 8-12 relevant skills. Include both technical skills
+          (programming languages, tools) and soft skills (leadership, communication).
         </p>
       </div>
+
     </div>
   )
 }
