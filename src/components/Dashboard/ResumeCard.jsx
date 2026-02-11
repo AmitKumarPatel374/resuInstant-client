@@ -57,8 +57,9 @@ const ResumeCard = ({ resume, color, onOpen, onDelete, onEdit }) => {
         onClick={(e) => e.stopPropagation()}
         className="
           absolute top-2 right-2
-          opacity-0 group-hover:opacity-100
           flex gap-1 transition
+          opacity-100 md:opacity-0
+          md:group-hover:opacity-100
         "
       >
         <button
